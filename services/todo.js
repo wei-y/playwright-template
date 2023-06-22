@@ -1,3 +1,5 @@
+const $pages = require("../pages");
+
 module.exports = {
   async newItem(page, options) {
     const { text } = options;
@@ -14,7 +16,7 @@ module.exports = {
   },
 
   async read(page, options) {
-    const { target, name } = options;
+    const { target = "item", name } = options;
     const todoPage = new $pages.TodoPage(page);
     if (target === "page") {
       return await todoPage.read();
@@ -25,29 +27,43 @@ module.exports = {
   },
 
   async update(page, options) {
-    const { name, newText } = options;
+    const { name, newText, confirm = "enter" } = options;
     const todoPage = new $pages.TodoPage(page);
     const item = todoPage.item(name);
-    await item.update(newText);
+    await item.update(newText, { confirm });
   },
 
   async complete(page, options) {
-    const { name } = options;
+    const { target = "item", name } = options;
     const todoPage = new $pages.TodoPage(page);
-    const item = todoPage.item(name);
-    await item.complete();
+    if (target === "item") {
+      const item = todoPage.item(name);
+      await item.complete();
+    } else if (target === "all") {
+      await todoPage.completeAll();
+    }
   },
 
-  async uncomplete(page) {
-    const { name } = options;
+  async uncomplete(page, options) {
+    const { target = "item", name } = options;
     const todoPage = new $pages.TodoPage(page);
-    const item = todoPage.item(name);
-    await item.uncomplete();
+    if (target === "item") {
+      const item = todoPage.item(name);
+      await item.uncomplete();
+    } else if (target === "all") {
+      await todoPage.uncompleteAll();
+    }
   },
 
-  async toggleAll(page) {
+  async clearCompleted(page) {
     const todoPage = new $pages.TodoPage(page);
-    await todoPage.toggleAll();
+    await todoPage.clearCompleted();
+  },
+
+  async filterBy(page, options) {
+    const { filter } = options;
+    const todoPage = new $pages.TodoPage(page);
+    await todoPage.filterBy(filter);
   },
 
   async isExisting(page, options) {

@@ -10,25 +10,35 @@ class TodoItem extends BaseComponent {
   }
 
   async isCompleted() {
-    return await this.$checkbox.isChecked();
+    if (await this.$checkbox.isVisible()) {
+      return await this.$checkbox.isChecked();
+    }
+    return null;
   }
 
   async complete() {
-    if (!(await this.isCompleted())) {
+    if ((await this.isCompleted()) === false) {
       await this.$checkbox.check();
     }
   }
 
   async uncomplete() {
-    if (await this.isCompleted()) {
+    if ((await this.isCompleted()) === true) {
       await this.$checkbox.uncheck();
     }
   }
 
-  async update(newText) {
+  async update(newText, options) {
+    const { confirm = "enter" } = options;
     await this.$text.dblclick();
-    await this.$text.fill(newText);
-    await this.$text.press("Enter");
+    await this.$input.fill(newText);
+    if (confirm === "enter") {
+      await this.$input.press("Enter");
+    } else if (confirm === "blur") {
+      await this.$input.blur();
+    } else if (confirm === "escape") {
+      await this.$input.press("Escape");
+    }
   }
 
   async remove() {

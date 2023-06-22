@@ -5,6 +5,8 @@ const { chromium } = require("@playwright/test");
 const nodemailer = require("nodemailer");
 const escape = require("markdown-escape");
 const random = require("./random");
+const { faker } = require("@faker-js/faker");
+const _ = require("lodash");
 
 // Playwright Logo
 const defaultImage =
@@ -287,7 +289,7 @@ module.exports = {
     await fsPromise.writeFile(cssDest, cssContent);
     const htmlName = faker.lorem.slug();
     const htmlDest = path.join(dir, `${htmlName}.html`);
-    await markdown.saveFile(
+    await this.saveFile(
       htmlDest,
       content,
       `-s --css ${cssDest} --metadata pagetitle=${htmlName}`
@@ -328,7 +330,7 @@ module.exports = {
     const { dir } = path.parse(destName);
     const htmlName = faker.lorem.slug();
     const htmlDest = path.join(dir, `${htmlName}.html`);
-    const html = await markdown.saveFile(htmlDest, body);
+    const html = await this.saveFile(htmlDest, body);
 
     // normalize attachments
     const mailAttachments = attachments.map((a) => {

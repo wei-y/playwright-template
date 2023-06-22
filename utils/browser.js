@@ -49,7 +49,7 @@ async function stopInterceptingJSON(page, url) {
  * @param {Object} page - the page to listen to console log
  */
 async function listenToConsoleLog(page) {
-  await page.on("console", async (msg) => {
+  page.on("console", async (msg) => {
     if (msg.type() === "error") {
       console.log(`[BROWSER CONSOLE ERROR]: ${msg.text()}`);
     }

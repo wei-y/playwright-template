@@ -1,3 +1,5 @@
+const path = require("path");
+
 /**
  * Loads the object defined in the relevant fixture file as test fixture.
  *

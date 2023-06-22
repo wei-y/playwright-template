@@ -1,4 +1,6 @@
 const path = require("path");
+const { faker } = require("@faker-js/faker");
+const _ = require("lodash");
 
 const dayjs = require("dayjs");
 const customParseFormat = require("dayjs/plugin/customParseFormat");

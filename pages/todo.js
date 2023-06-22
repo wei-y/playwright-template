@@ -1,4 +1,5 @@
 const { BasePage } = require("./base");
+const $components = require("../components");
 
 class TodoPage extends BasePage {
   constructor(page) {
@@ -27,8 +28,18 @@ class TodoPage extends BasePage {
     return new $components.TodoItem(item);
   }
 
-  async toggleAll() {
+  async readCount() {
+    if (await this.$count.isVisible()) {
+      return await this.$count.textContent();
+    }
+  }
+
+  async completeAll() {
     await this.$toggleAll.check();
+  }
+
+  async uncompleteAll() {
+    await this.$toggleAll.uncheck();
   }
 
   async filterBy(name) {
@@ -45,12 +56,29 @@ class TodoPage extends BasePage {
       items.push(await item.read());
     }
 
+    const inputText = (await this.$input.isVisible())
+      ? await this.$input.inputValue()
+      : null;
+
+    const count = (await this.$count.isVisible())
+      ? await this.$count.textContent()
+      : null;
+
+    const currentFilter = (await this.$currentFilter.isVisible())
+      ? await this.$currentFilter.textContent()
+      : null;
+
+    const allCompleted = (await this.$toggleAll.isVisible())
+      ? await this.$toggleAll.isChecked()
+      : null;
+
     return {
-      inputText: await this.$input.inputValue(),
-      count: await this.$count.textContent(),
-      currentFilter: await this.$currentFilter.textContent(),
-      canClearCompleted: await this.$clearCompleted.isVisible(),
       items,
+      inputText,
+      count,
+      currentFilter,
+      allCompleted,
+      canClearCompleted: await this.$clearCompleted.isVisible(),
     };
   }
 }
