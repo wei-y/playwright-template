@@ -17,31 +17,6 @@ class BaseComponent {
     // parent is the page itself
     this.parent = parent || locator.page();
   }
-
-  locator(selector, options) {
-    return this.$origin.locator(selector, options);
-  }
-
-  // wrap a few general functions of locator
-  async isVisible(options) {
-    return await this.$origin.isVisible(options);
-  }
-
-  async isHidden(options) {
-    return await this.$origin.isHidden(options);
-  }
-
-  async screenshot(options) {
-    return await this.$origin.screenshot(options);
-  }
-
-  async waitFor(options) {
-    return await this.$origin.waitFor(options);
-  }
-
-  async scrollIntoViewIfNeeded(options) {
-    return await this.$origin.scrollIntoViewIfNeeded(options);
-  }
 }
 
 module.exports = { BaseComponent };

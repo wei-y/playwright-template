@@ -4,6 +4,7 @@ const { faker } = require("@faker-js/faker");
 
 global.$app = require("./services");
 global.$pages = require("./pages");
+global.$components = require("./components");
 global.$utils = require("./utils");
 global._ = require("lodash");
 global.faker = faker;

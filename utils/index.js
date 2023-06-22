@@ -7,7 +7,7 @@ const postgres = require("./postgres");
 const markdown = require("./markdown");
 
 module.exports = {
-  general,
+  test,
   browser,
   files,
   remote,
