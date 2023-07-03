@@ -68,7 +68,7 @@ module.exports = {
 
   async isExisting(page, options) {
     const { name } = options;
-    const todoPage = new $pages.TodoPage(this.page);
+    const todoPage = new $pages.TodoPage(page);
     const item = todoPage.item(name);
     return await item.isExisting();
   },
